@@ -22,3 +22,18 @@ h1 {
 .page {
   min-height: 100vh;
 }
+
+@media (min-width: 768px) {
+  
+  h1 {
+    margin-bottom: 30px;
+  }
+}
+
+@media (min-width: 998px) {
+  
+  h1 {
+    font-size: 30px;
+    margin-bottom: 30px;
+  }
+}

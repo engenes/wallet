@@ -59,6 +59,11 @@ module.exports = {
         },
       },
     ],
+    'no-trailing-spaces': [
+      'error', {
+        skipBlankLines: true,
+      },
+    ],
     'default-case': 'off',
     'no-undef': 'off',
     radix: 'off',

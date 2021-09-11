@@ -1,7 +1,7 @@
 <template>
   <app-main class="wallet-page">
-    <h1>Мой кошелек</h1>
-    <app-wallet-currency/>
+    <h1>Мой кошелёк</h1>
+    <app-wallet-currency />
   </app-main>
 </template>
 
@@ -14,6 +14,9 @@ export default {
   components: {
     AppMain,
     AppWalletCurrency,
+  },
+  methods: {
+
   },
 };
 </script>
