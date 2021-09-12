@@ -16,6 +16,7 @@
         <button
           class="btn btn_main-alt"
           :class="{disabled: prevent_withdraw}"
+          @click="withdraw"
         >
           Вывод
         </button>
@@ -63,6 +64,9 @@ export default {
   methods: {
     deposit() {
       this.$emit('onDeposit', this.id);
+    },
+    withdraw() {
+      this.$emit('onWithdraw', this.id);
     },
   },
 };

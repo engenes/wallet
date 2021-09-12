@@ -1,7 +1,10 @@
 <template>
-  <div class="currencies">
-    <div>
-      <template v-if="balance_items">
+  <transition name="fade">
+    <div
+      v-if="loaded"
+      class="currencies"
+    >
+      <div>
         <app-balance-card
           v-for="item in balance_items"
           :id="item.id"
@@ -11,19 +14,28 @@
           :value="item.value"
           :min_withdraw="item.min_withdraw"
           @onDeposit="deposit"
+          @onWithdraw="withdraw"
         />
-      </template>
+      </div>
+      <app-panel
+        ref="wallet"
+        v-model="visible_panel"
+      >
+        <template #header>
+          {{ panel_title }}
+        </template>
+        <app-deposit-form
+          v-if="op_type === 'deposit'"
+          :currency="open_currency"
+        />
+        <app-withdraw-form
+          v-else-if="op_type === 'withdraw'"
+          :currency="open_currency"
+        />
+      </app-panel>
     </div>
-    <app-panel
-      ref="wallet"
-      v-model="visible_panel"
-    >
-      <template #header>
-        Здесь мог быть заголовок страницы
-      </template>
-      <app-deposit-form :id="open_currency" />
-    </app-panel>
-  </div>
+    <app-preloader v-else />
+  </transition>
 </template>
 
 <script>
@@ -31,6 +43,8 @@ import { mapActions, mapGetters } from 'vuex';
 import AppBalanceCard             from '@/components/currency/BalanceCard';
 import AppPanel                   from '@/components/popup/Panel';
 import AppDepositForm             from '@/components/forms/DepositForm';
+import AppWithdrawForm            from '@/components/forms/WithdrawForm';
+import AppPreloader               from '@/components/Preloader';
 
 export default {
   name: 'WalletCurrency',
@@ -38,6 +52,8 @@ export default {
     AppBalanceCard,
     AppPanel,
     AppDepositForm,
+    AppWithdrawForm,
+    AppPreloader,
   },
 
   mounted() {
@@ -47,24 +63,59 @@ export default {
   data() {
     return {
       visible_panel: false,
-      open_currency: null,
+      open_currency_id: null,
+      op_type: null,
     };
   },
   computed: {
     ...mapGetters('balance', [
       'balance_items',
+      'loaded',
     ]),
+    open_currency() {
+      return this.open_currency_id ? this.$store.getters['balance/balance_item'](this.open_currency_id) : null;
+    },
+    panel_title() {
+      return this.op_type === 'deposit'
+        ? `Купить ${this.open_currency.name}`
+        : this.op_type === 'withdraw' ? `Продать ${this.open_currency.name}` : null;
+    },
   },
   methods: {
     deposit(id) {
-      this.open_currency = id;
+      this.open_currency_id = id;
       this.$refs.wallet.show();
+      this.op_type = 'deposit';
+    },
+    withdraw(id) {
+      this.open_currency_id = id;
+      this.$refs.wallet.show();
+      this.op_type = 'withdraw';
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
+.preloader {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.fade-enter-active {
+  transition: opacity .7s;
+}
+
+.fade-leave-active {
+  transition: opacity .2s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .currencies {
   width: 100%;
   box-sizing: border-box;

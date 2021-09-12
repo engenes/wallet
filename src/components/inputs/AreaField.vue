@@ -4,44 +4,46 @@
     :class="class_list"
   >
     <div class="form__input">
-      <input
-        type="number"
-        :value="value"
-        :maxlength="maxLength"
-        step="any"
-        @input="onInput"
-        @blur="onInput"
-      >
-      <label
-        v-if="name.length"
-        class="form__group-name"
-      >
+      <label class="form__group-name">
         {{ name }}
         <i v-if="required">*</i>
       </label>
+      <textarea
+        :value="value"
+        :style="{resize}"
+        @input="onInput"
+        @blur="onInput"
+      />
     </div>
     <app-errors-list :errors="errors_list" />
   </div>
 </template>
 
 <script>
-
 import AppErrorsList from '@/components/inputs/ErrorsList';
 import getErrors     from '@/validate/translateons';
 
 export default {
-  name: 'NumberField',
+  name: 'TextField',
   props: {
     value: {
-      type: [Number, String],
+      type: String,
+    },
+    resize: {
+      type: String,
+      default: null,
     },
     name: {
       type: String,
-      default: '',
+      required: true,
     },
     v: {
       type: Object,
       default: null,
+    },
+    touched: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {
@@ -71,28 +73,31 @@ export default {
     required() {
       return this.v && 'required' in this.v;
     },
-    maxLength() {
-      if (this.v && 'maxLength' in this.v) {
-        return this.v.$params.maxLength.max;
-      }
-      return null;
-    },
   },
   methods: {
     onInput(e) {
-      if (e.data === 'e' || e.data === '.') {
-        e.target.value = this.value;
-      }
       if (this.v) {
         this.v.$touch();
       }
       this.$emit('input', e.target.value);
     },
   },
-  watch: {},
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.form {
+  &__input {
+    background: #fff;
+  }
 
+  &__group-name {
+    top: 12px;
+    left: 10px;
+  }
+
+  textarea {
+    background: initial;
+  }
+}
 </style>

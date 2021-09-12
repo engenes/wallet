@@ -5,10 +5,13 @@
       class="panel"
       :class="{open:is_open}"
     >
-      <div class="panel__overlay" />
+      <div
+        class="panel__overlay"
+        @click="hide"
+      />
       <div class="panel__inner">
         <div class="panel__header">
-          <slot name="header"></slot>
+          <slot name="header" />
           <i-close
             class="panel__close close"
             @click="hide"
@@ -23,7 +26,6 @@
 </template>
 
 <script>
-
 import iClose from 'app_images/ui/close.svg';
 
 export default {
@@ -40,12 +42,16 @@ export default {
   methods: {
     show() {
       this.visible = true;
+
+      document.body.style.overflow = 'hidden';
       setTimeout(() => {
         this.is_open = true;
       }, 0);
     },
     hide() {
       this.is_open = false;
+
+      document.body.style.overflow = null;
       setTimeout(() => {
         this.visible = false;
       }, 500);
@@ -71,13 +77,17 @@ export default {
     transform: translateX(100%);
     opacity: 0;
     transition: opacity .3s, transform .3s;
+    overflow: auto;
   }
 
   &__header {
-    display: block;
     position: relative;
     min-height: 40px;
-    padding: 5px 0;
+    padding: 5px 35px 5px 0;
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 600;
   }
 
   &__close {

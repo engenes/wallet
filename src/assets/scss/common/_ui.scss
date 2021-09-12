@@ -17,6 +17,10 @@
   border-radius: 4px;
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
   
+  &[disabled] {
+    pointer-events: none;
+  }
+  
   &_main {
     color: #fff;
     background-color: $corp-color;
@@ -32,6 +36,11 @@
       background-color: darken($corp-color, 10%);
       border-color: darken($corp-color, 15%);
       box-shadow: 0 0 0 4px rgba(lighten($corp-color, 20%), .5);
+    }
+    
+    &[disabled] {
+      background-color: lighten($corp-color, 30%);
+      border-color: lighten($corp-color, 30%);
     }
   }
   
@@ -49,6 +58,11 @@
       border-color: darken($corp-color, 20%);
       box-shadow: 0 0 0 4px rgba(lighten($corp-color, 20%), .5);
     }
+    
+    &[disabled] {
+      color: lighten($corp-color, 30%);
+      border-color: lighten($corp-color, 30%);
+    }
   }
   
   &_second {
@@ -61,5 +75,28 @@
       background-color: darken($sub-color, 10%);
       border-color: darken($sub-color, 10%);
     }
+    
+    &[disabled] {
+      border-color: lighten($sub-color, 30%);
+    }
   }
+}
+
+input {
+  display: block;
+  position: relative;
+  font-size: 16px;
+  padding: 20px 15px 5px;
+  border: 1px solid $sub-color;
+  border-radius: 5px;
+  background: transparent;
+}
+
+textarea {
+  display: block;
+  position: relative;
+  width: 100%;
+  border: 1px solid $sub-color;
+  padding: 25px 10px 10px 10px;
+  border-radius: 5px;
 }

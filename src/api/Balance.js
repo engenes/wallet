@@ -28,6 +28,6 @@ export default {
       resolve({
         status: true,
       });
-    }, 100);
+    }, 1000);
   }),
 };
