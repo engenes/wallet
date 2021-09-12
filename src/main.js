@@ -17,3 +17,5 @@ new Vue({
 }).$mount('#app');
 
 Object.defineProperty(Vue.prototype, '$format', { value: format });
+
+Vue.config.devtools = true;
