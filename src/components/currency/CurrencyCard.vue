@@ -7,7 +7,7 @@
       {{ name }}
     </div>
     <div class="currency-card__value">
-      Баланс: <span>{{ $format({ integerSeparator: ' ' })(value) }}</span>
+      Баланс: <span>{{ $format({ integerSeparator: ' ', decimal: ',' })(value) }}</span>
     </div>
     <div class="currency-card__description">
       <div v-html="description" />
@@ -51,8 +51,12 @@ export default {
     },
     description() {
       return (this.op_type === 'deposit')
-        ? (`Минимальная сумма <br> пополнения: ${this.min_deposit} ${this.name}`)
-        : (this.op_type === 'withdraw' ? `Минимальная сумма <br> вывода: ${this.min_withdraw} ${this.name}` : null);
+        ? (`Минимальная сумма <br> пополнения: ${this.$format({ integerSeparator: ' ', decimal: ',' })(this.min_deposit)} ${this.name}`)
+        : (
+          this.op_type === 'withdraw'
+            ? `Минимальная сумма <br> вывода: ${this.$format({ integerSeparator: ' ', decimal: ',' })(this.min_withdraw)} ${this.name}`
+            : null
+        );
     },
     tax() {
       return this.rate.type === 'percent'

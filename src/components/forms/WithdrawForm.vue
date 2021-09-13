@@ -56,13 +56,13 @@
 </template>
 
 <script>
-import { mapActions }                                       from 'vuex';
+import { mapActions }                             from 'vuex';
 import { required, minValue, minLength, helpers } from 'vuelidate/lib/validators';
-import { calcRate }                                         from '@/helpers/helpers';
-import AppNumberField                                       from '@/components/inputs/NumberField';
-import AppAreaField                                         from '@/components/inputs/AreaField';
-import AppCurrencyCard                                      from '@/components/currency/CurrencyCard';
-import AppPreloader                                         from '@/components/Preloader';
+import { calcRate }                               from '@/helpers/helpers';
+import AppNumberField                             from '@/components/inputs/NumberField';
+import AppAreaField                               from '@/components/inputs/AreaField';
+import AppCurrencyCard                            from '@/components/currency/CurrencyCard';
+import AppPreloader                               from '@/components/Preloader';
 
 export default {
   name: 'WithdrawForm',
@@ -115,7 +115,7 @@ export default {
   computed: {
     to_withdraw() {
       const result = calcRate(this.currency.rate, this.form.value);
-      return result < 0 ? 0 : result;
+      return result < 0 ? 0 : this.$format({ integerSeparator: ' ', decimal: ',' })(result);
     },
   },
   methods: {
@@ -128,9 +128,9 @@ export default {
         if ( ! result) {
           this.addFinalMsg({ msg: 'При выводе произошла ошибка', type: 'error' });
         } else {
-          this.form.value      = 0;
-          this.form.comment    = null;
-          this.form.address    = null;
+          this.form.value   = 0;
+          this.form.comment = null;
+          this.form.address = null;
           this.$v.form.$reset();
           this.addFinalMsg({ msg: 'Сумма успешное выведена', type: 'success' });
         }

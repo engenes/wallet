@@ -5,7 +5,7 @@
   >
     <div>
       <div class="balance-card__label">{{ name }} баланс</div>
-      <div class="balance-card__value">{{ $format({ integerSeparator: ' ' })(value) }}</div>
+      <div class="balance-card__value">{{ $format({ integerSeparator: ' ', decimal: ',' })(value) }}</div>
       <div class="balance-card__actions">
         <button
           class="btn btn_main"

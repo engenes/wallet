@@ -21,6 +21,9 @@
             name="Сумма"
             :v="$v.form.value"
           />
+          <div class="currency-form__amount">
+            К пополнению {{ to_deposit }} {{ currency.name }}
+          </div>
         </div>
         <app-area-field
           class="currency-form__comment"
@@ -46,12 +49,13 @@
 </template>
 
 <script>
-import { mapActions }        from 'vuex';
+import { mapActions }                    from 'vuex';
 import { required, minValue, maxLength } from 'vuelidate/lib/validators';
 import AppNumberField                    from '@/components/inputs/NumberField';
 import AppAreaField                      from '@/components/inputs/AreaField';
 import AppCurrencyCard                   from '@/components/currency/CurrencyCard';
 import AppPreloader                      from '@/components/Preloader';
+import { calcRate }                      from '@/helpers/helpers';
 
 export default {
   name: 'DepositForm',
@@ -89,7 +93,12 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    to_deposit() {
+      const result = calcRate(this.currency.rate, this.form.value);
+      return result < 0 ? 0 : this.$format({ integerSeparator: ' ', decimal: ',' })(result);
+    },
+  },
   methods: {
     ...mapActions('balance', ['depositBalance']),
     async deposit() {
@@ -169,12 +178,13 @@ export default {
 
   &__value {
     text-align: center;
+    margin-bottom: 10px;
 
     &::v-deep {
 
       .form__group {
         min-height: 112px;
-        margin-bottom: 15px;
+        margin-bottom: 2px;
       }
 
       .form__input {

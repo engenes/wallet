@@ -1,5 +1,7 @@
 import { plural } from '@/helpers/helpers';
 
+const format = require('format-number');
+
 const errors = {
   required: 'Обязательно для заполнения',
   minLength: 'Длина должна быть больше param_value',
@@ -23,20 +25,26 @@ const getErrors = function (field_name, v) {
         if ('max' in param.params) {
           switch (param.name) {
             case 'maxLength':
-              output_str = output_str.replace('param_value', `${param.params.max} ${plural(param.params.max, ['символ', 'символа', 'символов'])}`);
+              output_str = output_str.replace(
+                  'param_value',
+                  `${format({ integerSeparator: ' ', decimal: ',' })(param.params.max)} ${plural(param.params.max, ['символ', 'символа', 'символов'])}`,
+              );
               break;
             case 'maxValue':
-              output_str = output_str.replace('param_value', param.params.max);
+              output_str = output_str.replace('param_value', format({ integerSeparator: ' ', decimal: ',' })(param.params.max));
               break;
           }
         }
         if ('min' in param.params) {
           switch (param.name) {
             case 'minLength':
-              output_str = output_str.replace('param_value', `${param.params.min} ${plural(param.params.min, ['символ', 'символа', 'символов'])}`);
+              output_str = output_str.replace(
+                  'param_value',
+                  `${format({ integerSeparator: ' ', decimal: ',' })(param.params.min)} ${plural(param.params.min, ['символ', 'символа', 'символов'])}`,
+              );
               break;
             case 'minValue':
-              output_str = output_str.replace('param_value', param.params.min);
+              output_str = output_str.replace('param_value', format({ integerSeparator: ' ', decimal: ',' })(param.params.min));
               break;
           }
         }
@@ -44,7 +52,10 @@ const getErrors = function (field_name, v) {
           output_str = output_str.replace('param_value', param.params.start);
         }
         if ('length' in param.params) {
-          output_str = output_str.replace('param_value', `${param.params.length} ${plural(param.params.length, ['символ', 'символа', 'символов'])}`);
+          output_str = output_str.replace(
+              'param_value',
+              `${format({ integerSeparator: ' ', decimal: ',' })(param.params.length)} ${plural(param.params.length, ['символ', 'символа', 'символов'])}`,
+          );
         }
         errors_array.push(output_str);
       }
