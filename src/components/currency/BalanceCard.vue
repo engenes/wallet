@@ -129,6 +129,7 @@ export default {
   }
 
   &_ltc {
+
     > div {
       &::before {
         background-image: url("~app_images/c1.png");
@@ -163,6 +164,13 @@ export default {
     }
   }
 
+  &_fiat {
+
+    > div {
+      background: #f4fbeb;
+    }
+  }
+
   &__label {
     font-weight: 600;
     color: $inactive-color;
@@ -189,6 +197,7 @@ export default {
   }
 
   .btn {
+
     &.disabled {
       pointer-events: none;
       filter: grayscale(1);
@@ -217,6 +226,16 @@ export default {
 
       > div {
         border: 1px solid darken(#f0f2f7, 30%);
+      }
+    }
+
+    &_fiat {
+
+      &:hover {
+
+        > div {
+          border: 1px solid darken(#f4fbeb, 30%);
+        }
       }
     }
   }

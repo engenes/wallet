@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters }        from 'vuex';
+import { mapActions }        from 'vuex';
 import { required, minValue, maxLength } from 'vuelidate/lib/validators';
 import AppNumberField                    from '@/components/inputs/NumberField';
 import AppAreaField                      from '@/components/inputs/AreaField';

@@ -57,6 +57,7 @@ export default {
   },
 
   mounted() {
+    // Запускаем загрузку данные по балансу пользователя и по валюте
     this.$store.dispatch('currency/loadCurrency');
     this.$store.dispatch('balance/loadBalance');
   },
@@ -72,9 +73,13 @@ export default {
       'balance_items',
       'loaded',
     ]),
+
+    // Извлекаем объект текущей валюты со склада
     open_currency() {
       return this.open_currency_id ? this.$store.getters['balance/balance_item'](this.open_currency_id) : null;
     },
+
+    // Задаем заголовок, для боковой панели
     panel_title() {
       return this.op_type === 'deposit'
         ? `Купить ${this.open_currency.name}`

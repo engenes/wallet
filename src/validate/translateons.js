@@ -1,3 +1,5 @@
+import { plural } from '@/helpers/helpers';
+
 const errors = {
   required: 'Обязательно для заполнения',
   minLength: 'Длина должна быть больше param_value',
@@ -8,18 +10,15 @@ const errors = {
   equality: 'Должно иметь длину param_value',
 };
 
-function plural(number, words) {
-  const cases = [2, 0, 1, 1, 1, 2];
-  return words[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
-}
-
 const getErrors = function (field_name, v) {
   const flattenParams = v.$flattenParams();
   const errors_array  = [];
   
+  console.log(v);
+  
   flattenParams.forEach((param) => {
     let output_str = errors[param.name];
-    if (!v[param.name]) {
+    if ( ! v[param.name]) {
       if (output_str) {
         if ('max' in param.params) {
           switch (param.name) {

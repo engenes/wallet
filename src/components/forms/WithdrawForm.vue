@@ -56,13 +56,13 @@
 </template>
 
 <script>
-import { mapActions }                              from 'vuex';
-import { required, minValue, minLength, maxValue } from 'vuelidate/lib/validators';
-import { calcRate }                                from '@/helpers/helpers';
-import AppNumberField                              from '@/components/inputs/NumberField';
-import AppAreaField                                from '@/components/inputs/AreaField';
-import AppCurrencyCard                             from '@/components/currency/CurrencyCard';
-import AppPreloader                                from '@/components/Preloader';
+import { mapActions }                                       from 'vuex';
+import { required, minValue, minLength, helpers } from 'vuelidate/lib/validators';
+import { calcRate }                                         from '@/helpers/helpers';
+import AppNumberField                                       from '@/components/inputs/NumberField';
+import AppAreaField                                         from '@/components/inputs/AreaField';
+import AppCurrencyCard                                      from '@/components/currency/CurrencyCard';
+import AppPreloader                                         from '@/components/Preloader';
 
 export default {
   name: 'WithdrawForm',
@@ -88,16 +88,22 @@ export default {
       },
       form_process: false,
       final_msg: null,
-      current_balance: this.currency.value,
     };
   },
   validations() {
-    const rules = {
+    return {
       form: {
         value: {
           required,
           minValue: minValue(this.currency.min_withdraw),
-          maxValue: maxValue(this.currency.value),
+          /*
+           Из за того что во Vuelidate не поддерживает динамические параметры,
+           написал хелпер-функцию, которая, задает этот параметр явно
+           */
+          maxValue: helpers.withParams((add) => (value) => {
+            add({ max: this.currency.value });
+            return value <= this.currency.value;
+          }),
         },
         address: {
           required,
@@ -105,12 +111,6 @@ export default {
         },
       },
     };
-
-    /*
-     Из за того что Vuelidate, не поддерживает динамическое обновление,
-     пришлось писать через условие, только так, схема правил, подхватывает, новое значение
-     */
-    return this.current_balance !== this.currency.value ? rules : rules;
   },
   computed: {
     to_withdraw() {
@@ -128,7 +128,6 @@ export default {
         if ( ! result) {
           this.addFinalMsg({ msg: 'При выводе произошла ошибка', type: 'error' });
         } else {
-          this.current_balance = this.currency.value;
           this.form.value      = 0;
           this.form.comment    = null;
           this.form.address    = null;
