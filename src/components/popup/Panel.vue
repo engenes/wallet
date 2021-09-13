@@ -56,6 +56,20 @@ export default {
         this.visible = false;
       }, 500);
     },
+    documentKeydown(e) {
+      if (e.key === 'Escape') {
+        this.hide();
+      }
+    },
+  },
+  watch: {
+    visible(state) {
+      if (state) {
+        document.addEventListener('keydown', this.documentKeydown);
+      } else {
+        document.removeEventListener('keydown', this.documentKeydown);
+      }
+    },
   },
 };
 </script>
