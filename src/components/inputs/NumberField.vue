@@ -8,6 +8,7 @@
         type="number"
         :value="value"
         :maxlength="maxLength"
+        :placeholder="placeholder"
         step="any"
         @input="onInput"
         @blur="onInput"
@@ -38,6 +39,10 @@ export default {
     name: {
       type: String,
       default: '',
+    },
+    placeholder: {
+      type: [Number, String],
+      default: null,
     },
     v: {
       type: Object,

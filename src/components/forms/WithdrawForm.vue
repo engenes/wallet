@@ -20,6 +20,7 @@
             <app-number-field
               v-model="form.value"
               name="Сумма"
+              placeholder="0"
               :v="$v.form.value"
             />
             <div class="currency-form__amount">
@@ -81,7 +82,7 @@ export default {
   data() {
     return {
       form: {
-        value: 0,
+        value: null,
         address: null,
         comment: null,
         currency_id: this.currency.id,
@@ -128,7 +129,7 @@ export default {
         if ( ! result) {
           this.addFinalMsg({ msg: 'При выводе произошла ошибка', type: 'error' });
         } else {
-          this.form.value   = 0;
+          this.form.value   = null;
           this.form.comment = null;
           this.form.address = null;
           this.$v.form.$reset();
