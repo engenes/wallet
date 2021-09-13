@@ -15,9 +15,6 @@ const errors = {
 const getErrors = function (field_name, v) {
   const flattenParams = v.$flattenParams();
   const errors_array  = [];
-  
-  console.log(v);
-  
   flattenParams.forEach((param) => {
     let output_str = errors[param.name];
     if ( ! v[param.name]) {
