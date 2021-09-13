@@ -109,6 +109,7 @@ export default {
     right: 0;
     width: 30px;
     cursor: pointer;
+    top: 5px;
   }
 
   &__overlay {

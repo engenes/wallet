@@ -5,7 +5,7 @@
   >
     <div>
       <div class="balance-card__label">{{ name }} баланс</div>
-      <div class="balance-card__value">{{ $format({ integerSeparator: ' ', decimal: ',' })(value) }}</div>
+      <div class="balance-card__value">{{ format_value }}</div>
       <div class="balance-card__actions">
         <button
           class="btn btn_main"
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { rounded } from '@/helpers/helpers';
+
 export default {
   name: 'BalanceCard',
   props: {
@@ -59,6 +61,9 @@ export default {
     },
     prevent_withdraw() {
       return this.value < this.min_withdraw;
+    },
+    format_value() {
+      return this.$format({ integerSeparator: ' ', decimal: ',' })(rounded(this.value, 7));
     },
   },
   methods: {

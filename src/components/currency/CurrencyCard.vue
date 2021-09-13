@@ -7,7 +7,7 @@
       {{ name }}
     </div>
     <div class="currency-card__value">
-      Баланс: <span>{{ $format({ integerSeparator: ' ', decimal: ',' })(value) }}</span>
+      Баланс: <span>{{ format_value }}</span>
     </div>
     <div class="currency-card__description">
       <div v-html="description" />
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { rounded } from '@/helpers/helpers';
+
 export default {
   name: 'CurrencyCard',
   props: {
@@ -62,6 +64,9 @@ export default {
       return this.rate.type === 'percent'
         ? `Комиссия: ${this.rate.size}%`
         : `Комиссия: ${this.rate.size} ${this.name}`;
+    },
+    format_value() {
+      return this.$format({ integerSeparator: ' ', decimal: ',' })(rounded(this.value, 7));
     },
   },
 };
