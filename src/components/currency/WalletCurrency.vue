@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import AppBalanceCard             from '@/components/currency/BalanceCard';
 import AppPanel                   from '@/components/popup/Panel';
 import AppDepositForm             from '@/components/forms/DepositForm';
@@ -125,7 +125,7 @@ export default {
   width: 100%;
   box-sizing: border-box;
   border-radius: 8px;
-  padding: 10px 15px;
+  padding: 10px 0;
   border: 1px solid #F2F7FF;
 }
 

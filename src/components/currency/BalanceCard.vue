@@ -78,7 +78,7 @@ export default {
 .balance-card {
 
   > div {
-    padding: 15px 0 15px 70px;
+    padding: 15px 15px 15px 85px;
     position: relative;
 
     &::before {
@@ -86,7 +86,7 @@ export default {
       display: block;
       position: absolute;
       top: 15px;
-      left: 0;
+      left: 12px;
       width: 55px;
       height: 55px;
       border-radius: 50%;
